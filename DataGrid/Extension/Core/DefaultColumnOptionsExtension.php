@@ -11,12 +11,14 @@ declare(strict_types=1);
 
 namespace FSi\Bundle\DoctrineExtensionsBundle\DataGrid\Extension\Core;
 
+use FSi\Bundle\DoctrineExtensionsBundle\DataGrid\ColumnType\FSiFile;
+use FSi\Bundle\DoctrineExtensionsBundle\DataGrid\ColumnType\FSiImage;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension as BaseExtension;
 
 class DefaultColumnOptionsExtension extends BaseExtension
 {
     public function getExtendedColumnTypes(): array
     {
-        return ['fsi_file', 'fsi_image'];
+        return [FSiFile::class, FSiImage::class];
     }
 }

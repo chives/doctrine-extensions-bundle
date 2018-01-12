@@ -12,21 +12,16 @@ declare(strict_types=1);
 namespace FSi\Bundle\DoctrineExtensionsBundle\DataGrid\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
+use FSi\Component\DataGrid\Column\ColumnInterface;
 
 class FSiFile extends ColumnAbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getId(): string
     {
         return 'fsi_file';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function filterValue($value)
+    public function filterValue(ColumnInterface $column, $value)
     {
         return $value;
     }

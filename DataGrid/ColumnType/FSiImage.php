@@ -13,39 +13,29 @@ namespace FSi\Bundle\DoctrineExtensionsBundle\DataGrid\ColumnType;
 
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
+use FSi\Component\DataGrid\Column\ColumnInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FSiImage extends ColumnAbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getId(): string
     {
         return 'fsi_image';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function filterValue($value)
+    public function filterValue(ColumnInterface $column, $value)
     {
         return $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildCellView(CellViewInterface $view): void
+    public function buildCellView(ColumnInterface $column, CellViewInterface $view): void
     {
-        $view->setAttribute('width', $this->getOption('width'));
+        $view->setAttribute('width', $column->getOption('width'));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions(): void
+    public function initOptions(OptionsResolver $optionsResolver): void
     {
-        $this->getOptionsResolver()
+        $optionsResolver
             ->setRequired(['width'])
             ->setAllowedTypes('width', 'integer');
     }

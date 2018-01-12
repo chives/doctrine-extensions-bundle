@@ -12,39 +12,28 @@ declare(strict_types=1);
 namespace spec\FSi\Bundle\DoctrineExtensionsBundle\DataGrid\ColumnType;
 
 use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FSiImageSpec extends ObjectBehavior
 {
-    function it_initializes_width_option()
+    function it_initializes_width_option(OptionsResolver $optionsResolver)
     {
-        $this->initOptions();
-        $this->setOptions(['width' => 100]);
+        $optionsResolver->setRequired(['width'])->shouldBeCalled()->willReturn($optionsResolver);
+        $optionsResolver->setAllowedTypes('width', 'integer')->shouldBeCalled();
 
-        $this->getOption('width')->shouldReturn(100);
+        $this->initOptions($optionsResolver);
     }
 
-    function it_accepts_only_integer_width()
+    function it_passes_width_as_view_attribute(ColumnInterface $column, CellViewInterface $cellView)
     {
-        $this->initOptions();
-        $this->shouldThrow(InvalidOptionsException::class)->duringSetOptions(['width' => 'a']);
-    }
-
-    function it_requires_width_option()
-    {
-        $this->initOptions();
-        $this->shouldThrow(MissingOptionsException::class)->duringSetOptions([]);
-    }
-
-    function it_passes_width_as_view_attribute(CellViewInterface $cellView)
-    {
-        $this->initOptions();
-        $this->setOptions(['width' => 100]);
+        $column->getOption('width')->willReturn(100);
 
         $cellView->setAttribute('width', 100)->shouldBeCalled();
 
-        $this->buildCellView($cellView);
+        $this->buildCellView($column, $cellView);
     }
 }
